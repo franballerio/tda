@@ -1,7 +1,7 @@
 import time
+import math
 
-def erato2(n: int) -> list[bool]:
-
+def erato(n: int) -> list[bool]:
     """Returns a list of all prime numbers up to n."""
     if n < 2:
         return []
@@ -24,29 +24,15 @@ def erato2(n: int) -> list[bool]:
 def esprimoV4(n: int, primes: list[bool]):
     return primes[n]
 
-
 def prog():
-    t1 = time.time()
-    primes = erato2(int(1000000))
-    for i in range(11,1000000):
+    t1 = time.perf_counter()
+    primes = erato(1000000)
+    # print(11,13,17,19)
+    # print(101, 103, 107,109)
+    for i in range(11, 1000000, 30):
         if esprimoV4(i, primes) and esprimoV4(i+2, primes) and esprimoV4(i+6, primes) and esprimoV4(i+8, primes):
             print (i, i+2, i+6,i+8)
-    t2 = time.time()
-    times = t2 - t1
-    print(times)
-    return times
-
-def prog1():
-    t1 = time.time()
-    primes = erato2(int(1000000))
-    for i in range(11,1000000, 10):
-        if esprimoV4(i, primes) and esprimoV4(i+2, primes) and esprimoV4(i+6, primes) and esprimoV4(i+8, primes):
-            print (i, i+2, i+6,i+8)
-    t2 = time.time()
-    times = t2 - t1
-    print(times)
-    return times
+    t2 = time.perf_counter() - t1
+    print(t2)
 
 p = prog()
-print('-------------------------')
-p1 = prog1()

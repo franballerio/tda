@@ -1,4 +1,5 @@
 import time
+import math
 
 def erato(n: int) -> list[int]:
     """Returns a list of all prime numbers up to n."""
@@ -19,20 +20,8 @@ def erato(n: int) -> list[int]:
     # Filter out and return the indices that remain True
     return [num for num, prime in enumerate(is_prime) if prime]
 
+# posibles divisores hasta raiz n
 # def esprimo(n):
-#     i = 2
-#     cd = 0
-#     while i <= n-1:
-#         if n%i == 0:
-#             cd = cd+1
-#         i = i+1
-#     if cd == 0:
-#         return True
-#     else:
-#         return False
-
-
-# def esprimoV1(n):
 #     i = 2
 #     cd = 0
 #     while i <= n**0.5:
@@ -41,7 +30,8 @@ def erato(n: int) -> list[int]:
 #         i = i+1
 #     return cd == 0
 
-# def esprimoV1(n):
+# con un solo divisor ya no es primo
+# def esprimo(n):
 #     i = 2
 #     while i <= n**0.5:
 #         if n%i == 0:
@@ -49,73 +39,57 @@ def erato(n: int) -> list[int]:
 #         i = i+1
 #     return True
 
-def esprimoV2(n):
-    for i in range(2,int(n**0.5)):
-        if n%i == 0:
-             return False
-    return True
+# def esprimoV2(n):
+#     for i in range(2,int(n**0.5)):
+#         if n%i == 0:
+#              return False
+#     return True
 
-def esprimoV2_1(n):
-    for i in range(2,int(n**0.5)):
-        if divmod(n, i) == 0:
-             return False
-    return True
+# def esprimoV3(n: int, primes: list[int]):
+#     for i in primes:
+#         if (i > int(math.sqrt(n))):
+#             break
+#         if n%i == 0:
+#              return False
+#     return True
 
-def esprimoV3(n: int, primes: list[int]):
+def esprimoV4(n: int, primes: list[int]):
+    limite = int(math.sqrt(n))
     for i in primes:
-        if (i > int(n**0.5)):
+        if (i > limite):
             break
         if n%i == 0:
              return False
     return True
 
-
 # def prog():
 #     t1 = time.time()
-#     for i in range (11,1000000):
-#         if esprimo(i) and esprimo(i+2) and esprimo(i+6) and esprimo(i+8):
+#     primes = erato(int(math.sqrt(1000000)))
+#     # print(11,13,17,19)
+#     # print(101, 103, 107,109)
+#     for i in range(11, 1000000, 30):
+#         if esprimoV3(i, primes) and esprimoV3(i+2, primes) and esprimoV3(i+6, primes) and esprimoV3(i+8, primes):
 #             print (i, i+2, i+6,i+8)
 #     t2 = time.time()
-#     print(t2-t1)
-
-# def prog():
-#     t1 = time.time()
-#     for i in range (11,1000000):
-#         if esprimoV1(i) and esprimoV1(i+2) and esprimoV1(i+6) and esprimoV1(i+8):
-#             print (i, i+2, i+6,i+8)
-#     t2 = time.time()
-#     print(t2 - t1)
+#     times = t2 - t1
+#     print(times)
+#     return times
 
 def prog():
     t1 = time.time()
-    for i in range(11,1000000):
-        if esprimoV2_1(i) and esprimoV2_1(i+2) and esprimoV2_1(i+6) and esprimoV2_1(i+8):
-            print (i, i+2, i+6,i+8)
-    t2 = time.time()
-    times = t2 - t1
-    print(times)
-    # return times
-
-def prog1():
-    t1 = time.time()
-    primes = erato(int(1000000**0.5))
-    print(11,13,17,19)
-    print(101, 103, 107,109)
-    for i in range(111,1000000, 10):
-        if esprimoV3(i, primes) and esprimoV3(i+2, primes) and esprimoV3(i+6, primes) and esprimoV3(i+8, primes):
+    primes = erato(int(math.sqrt(1000000)))
+    # print(11,13,17,19)
+    # print(101, 103, 107,109)
+    for i in range(11, 1000000, 30):
+        if esprimoV4(i, primes) and esprimoV4(i+2, primes) and esprimoV4(i+6, primes) and esprimoV4(i+8, primes):
             print (i, i+2, i+6,i+8)
     t2 = time.time()
     times = t2 - t1
     print(times)
     return times
 
+p = prog()
+# print('-------------------------')
+# p1 = prog1()
 
-# p = prog()
-# print('-------------------------')
-p1 = prog1()
-# print('-------------------------')
-# p2 = prog2()
-# print('-------------------------')
-# p3 = prog3()
-
-# print(p, p1, p2, p3)
+# print(p, p1)
