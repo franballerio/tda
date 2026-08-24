@@ -17,11 +17,10 @@ def erato(n: int) -> list[bool]:
             for i in range(p * p, n + 1, p):
                 is_prime[i] = False
 
-    # Filter out and return the indices that remain True
-    # return [num for num, prime in enumerate(is_prime) if prime]
+    # return each position as a check for 
     return is_prime
 
-def esprimoV4(n: int, primes: list[bool]):
+def esprimo(n: int, primes: list[bool]):
     return primes[n]
 
 def prog():
@@ -30,7 +29,7 @@ def prog():
     # print(11,13,17,19)
     # print(101, 103, 107,109)
     for i in range(11, 1000000, 30):
-        if esprimoV4(i, primes) and esprimoV4(i+2, primes) and esprimoV4(i+6, primes) and esprimoV4(i+8, primes):
+        if esprimo(i, primes) and esprimo(i+2, primes) and esprimo(i+6, primes) and esprimo(i+8, primes):
             print (i, i+2, i+6,i+8)
     t2 = time.perf_counter() - t1
     print(t2)
