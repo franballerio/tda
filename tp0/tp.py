@@ -53,11 +53,20 @@ def erato(n: int) -> list[int]:
 #              return False
 #     return True
 
-def esprimoV4(n: int, primes: list[int]):
+def esprimo(n: int, primes: list[int]):
     limite = int(math.sqrt(n))
     for i in primes:
         if (i > limite):
             break
+        if n%i == 0:
+             return False
+    return True
+
+def esprimoV4(n: int):
+    limite = int(math.sqrt(n))
+    for i in range(2, limite):
+        # if (i > limite):
+        #     break
         if n%i == 0:
              return False
     return True
@@ -78,10 +87,25 @@ def esprimoV4(n: int, primes: list[int]):
 def prog():
     t1 = time.time()
     primes = erato(int(math.sqrt(1000000)))
+    print(2,5,7,9)
     # print(11,13,17,19)
     # print(101, 103, 107,109)
     for i in range(11, 1000000, 30):
-        if esprimoV4(i, primes) and esprimoV4(i+2, primes) and esprimoV4(i+6, primes) and esprimoV4(i+8, primes):
+        if esprimo(i, primes) and esprimo(i+2, primes) and esprimo(i+6, primes) and esprimo(i+8, primes):
+            print (i, i+2, i+6,i+8)
+    t2 = time.time()
+    times = t2 - t1
+    print(times)
+    return times
+
+def prog1():
+    t1 = time.time()
+    # primes = erato(int(math.sqrt(1000000)))
+    print(2, 5, 7, 9)
+    # print(11,13,17,19)
+    # print(101, 103, 107,109)
+    for i in range(11, 1000000, 30):
+        if esprimoV4(i) and esprimoV4(i+2) and esprimoV4(i+6) and esprimoV4(i+8):
             print (i, i+2, i+6,i+8)
     t2 = time.time()
     times = t2 - t1
@@ -89,7 +113,7 @@ def prog():
     return times
 
 p = prog()
-# print('-------------------------')
-# p1 = prog1()
+print('-------------------------')
+p1 = prog1()
 
-# print(p, p1)
+print(p, p1)
