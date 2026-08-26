@@ -33,12 +33,18 @@ def esprimo(n: int):
              return False
     return True
 
+def esprimov1(n: int) -> bool:
+    limite = math.isqrt(n) + 1
+    # Check 6k - 1 and 6k + 1 up to sqrt(n)
+    for i in range(5, limite, 6):
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+    return True
+
 def prog():
     t1 = time.perf_counter()
-
     _primo = esprimo
     resultados = []
-
     for i in range(11, 1000000, 30):
         a = i
         b = i + 2
@@ -46,17 +52,30 @@ def prog():
         d = i + 8
         if _primo(a) and _primo(b) and _primo(c) and _primo(d):
             resultados.append((a, b, c, d))
-
     t2 = time.perf_counter() - t1
+    print(2, 3, 5, 7)
+    for r in resultados:
+        print(*r)
+    print(t2)
+    return t2
+
+def prog1():
+    t1 = time.perf_counter()
+    _primo = esprimov1
+
+    resultados = [
+        (i, i + 2, i + 6, i + 8)
+        for i in range(11, 1000000, 30)
+        if _primo(i) and _primo(i + 2) and _primo(i + 6) and _primo(i + 8)
+    ]
 
     print(2, 3, 5, 7)
     for r in resultados:
         print(*r)
-
+    t2 = time.perf_counter() - t1
     print(t2)
 
-p = prog()
-# print('-------------------------')
-# p1 = prog1()
-
-# print(p, p1)
+if __name__ == "__main__":
+    # p = prog()
+    prog1()
+    # print(p, p1)
