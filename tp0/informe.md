@@ -6,8 +6,10 @@ La solucion al ejercicio esta compuesta por dos funciones: esprimo y prog
 - prog muestra el tiempo que tarda en imprimir por pantalla los cuartetos de numeros primos encontrados usando un bucle que va desde 11 hasta 1000000 y con cada iteracion llama a esPrimo para verificar si el numero y sus 3 hermanos son primos.
 
 ### Complejidad Temporal Pre Modificacion
-- esPrimo loopea desde 2 hasta n-1, es decir, tiene una complejidad de O(n)
-- prog tiene una complejidad de O(n^2) ya que llama a esPrimo para cada numero en el rango [11, 1000000]
+#### esprimo 
+Loopea desde 2 hasta n-1, es decir, tiene una complejidad de $O(n)$
+#### prog 
+tiene una complejidad de $O(n^2)$ ya que llama a esPrimo para cada numero en el rango [11, 1000000]
 
 ### Limitaciones en el algoritmo dado
 - esprimo:
@@ -85,8 +87,19 @@ para cada tupla de resultados {
 }
 imprimir tiempo de ejecucion
 
+### Complejidad Temporal Post Modificacion
+#### esprimo
+El algoritmo recorre de 6 en 6 los numeros desde el 5 hasta $\sqrt{n}$.
+Osea se realizan una cantidad de $\sqrt{n}$ / 6 operaciones, lo que da O($\sqrt{n}$ / 6 operaciones) que es lo mismo que O($\sqrt{n}$)
+
+#### prog
+Gracias a que esprimo mejoró su complejidad, este algoritmo también lo hizo. Pero la base de la complejidad sigue siendo la misma pues la cantidad de llamadas a esprimo depende de n.
+Finalmente se realizan n/30 * 4 llamadas a esprimo.
+O(n/30) * 4 O($\sqrt{n}$) = O(n) * O($\sqrt{n}$)
+
+## Comparación de Tiempos de Ejecución
+
+
 ## Referencias
-
-GeeksforGeeks. (2026, 25 de agosto). *Program for prime number check*. https://www.geeksforgeeks.org/dsa/check-for-prime-number/
-
-Prime quadruplet. (s.f.). En *Wikipedia*. Recuperado el 26 de agosto de 2026, de https://en.wikipedia.org/wiki/Prime_quadruplet#Prime_k-tuples
+- GeeksforGeeks. (2026, 25 de agosto). *Program for prime number check*. https://www.geeksforgeeks.org/dsa/check-for-prime-number/
+- Prime quadruplet. (s.f.). En *Wikipedia*. Recuperado el 26 de agosto de 2026, de https://en.wikipedia.org/wiki/Prime_quadruplet#Prime_k-tuples
