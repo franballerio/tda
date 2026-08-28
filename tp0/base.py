@@ -20,4 +20,4 @@ def prog():
     t2=time.time()
     print(t2-t1)
 
-prog()
+# prog()

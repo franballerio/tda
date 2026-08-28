@@ -1,15 +1,18 @@
 # INFORME TP0 - Francisco Oscar Ballerio
 
-### Descripcion del codigo dado
+## Código Inicial
 La solucion al ejercicio esta compuesta por dos funciones: esprimo y prog
 - esPrimo recibe un numero entero n y busca la cantidad de divisores de este en el conjunto de numeros enteros [2, n-1] recorriendo cada elemento. Si esta cantidad es 0 significa que el numero es primo y de tener al menos 1 divisor, este numero no es primo.
 - prog muestra el tiempo que tarda en imprimir por pantalla los cuartetos de numeros primos encontrados usando un bucle que va desde 11 hasta 1000000 y con cada iteracion llama a esPrimo para verificar si el numero y sus 3 hermanos son primos.
 
-### Complejidad Temporal Pre Modificacion
-#### esprimo 
-Loopea desde 2 hasta n-1, es decir, tiene una complejidad de $O(n)$
-#### prog 
-tiene una complejidad de $O(n^2)$ ya que llama a esPrimo para cada numero en el rango [11, 1000000]
+### Supuestos y Condiciones del Algoritmo
+Para que el algoritmo funcione, se necesita:
+- Que el límite (n) sea un entero positivo.  
+El algritmo:
+- Busca cuartetos de primos en la misma decena.
+- Todos los elementos de la solución serán menores que el límite.
+- Los tiempos de ejecución dependen del hardware y cantidad de tareas que el OS está ejecutando al momento de correr el código.
+- La versión de Python es 3.10
 
 ### Limitaciones en el algoritmo dado
 - esprimo:
@@ -50,9 +53,8 @@ Esto nos permite optimizar el algoritmo `esPrimo` y reducir significativamente l
 Finalmente lo mejor que se pudo mejorar la complejidad de este algoritmo es O($\sqrt{n}$).
 
 ### Optimizando prog
-
 1. Restricción del espacio de búsqueda para cuartetos de primos:
-> Un cuarteto de números primos es un conjunto de la forma $\{p, p+2, p+6, p+8\}$. A excepción del primer cuarteto $(\{5, 7, 11, 13\})$, todo cuarteto con $p > 5$ cumple con las siguientes propiedades aritméticas:
+> Un cuarteto de números primos es un conjunto de la forma $\{p, p+2, p+6, p+8\}$. Todo cuarteto con $p > 5$ cumple con las siguientes propiedades aritméticas ({5, 7, 11, 13} es el único que no cumple, pero como no estan en la misma decena no nos importa):
 > * Ninguno de sus elementos puede ser divisible por 2, 3 o 5.
 > * En aritmética modular, esto restringe la posición del primer elemento a una única clase de congruencia módulo 30 ($2 \times 3 \times 5 = 30$), específicamente $p \equiv 11 \pmod{30}$.
 > Como consecuencia, la distancia mínima entre el inicio de dos cuartetos consecutivos $\{p, \dots\}$ y $\{q, \dots\}$ es $q - p = 30$, y toda separación entre candidatos válidos debe ser forzosamente un múltiplo de 30 (*Prime quadruplet* (Wikipedia), s.f.). 
@@ -61,9 +63,13 @@ Esta propiedad permite optimizar el algoritmo de búsqueda, descartando la evalu
 
 2. Para solucionar la realentización de I/O metemos los candidatos en una lista de cuatruplas (i, i+2, i+6, i+8) para imprimirlas todas juntas luego de encontrar *todos* los cuartetos.
 
-3. El crear la lista de cuartetos inline aumenta la performance del código. La implementación de este método es en CPython.
+3. El crear la lista de cuartetos inline aumenta la performance del código. La implementación de este método es en CPython y evita usar .append() repetidas veces.
 
-## Pseudocódigo
+## Pseudocódigo y Estructuras de Datos
+- Lista:
+  - En la función prog, resultados es una lista con los cuartetos a imprimir
+- Tupla:
+  - Los cuartetos son almacenados compo tuple[int, int, int, int] en la lista de resultados 
 
 ### esprimo
 recibo numero
@@ -87,7 +93,15 @@ para cada tupla de resultados {
 }
 imprimir tiempo de ejecucion
 
-### Complejidad Temporal Post Modificacion
+## Complejidad Temporal 
+### Original
+#### esprimo 
+Loopea desde 2 hasta n-1, es decir, tiene una complejidad de $O(n)$
+#### prog 
+tiene una complejidad de $O(n^2)$ ya que llama a esPrimo para cada numero en el rango [11, 1000000]
+Post Modificacion
+
+### Optimizado
 #### esprimo
 El algoritmo recorre de 6 en 6 los numeros desde el 5 hasta $\sqrt{n}$.
 Osea se realizan una cantidad de $\sqrt{n}$ / 6 operaciones, lo que da O($\sqrt{n}$ / 6 operaciones) que es lo mismo que O($\sqrt{n}$)
@@ -98,7 +112,54 @@ Finalmente se realizan n/30 * 4 llamadas a esprimo.
 O(n/30) * 4 O($\sqrt{n}$) = O(n) * O($\sqrt{n}$)
 
 ## Comparación de Tiempos de Ejecución
+En la teoría conocemos la complejidad de ambos algoritmos. Ahora queremos comprobar empíricamente que estas complejidades sean correctas.
+Por lo tanto usaremos el paper proporcionado por la cátedra para aproximar por cuadrados mínimos y verificar que el error sea relativamente bajo.
 
+### Base
+N,tiempo_promedio_seg
+499,0.008763623237609864
+626,0.015505003929138183
+785,0.024500203132629395
+984,0.03470015525817871
+1234,0.057572340965270995
+1547,0.09275925159454346
+1939,0.15277678966522218
+2430,0.24313461780548096
+3046,0.3582019567489624
+3818,0.5568149089813232
+4786,0.8201635360717774
+5999,1.2352319478988647
+
+algoritmo,modelo,c1,c2,error_cuadratico
+busqueda_base,c1*n^2 + c2,3.472599560209479e-08,0.014808706892568307,0.004121640951303158
+
+/home/fballerio/tda\tp0/complejidad/grafico_busqueda_base.png
+
+
+### Optimizado
+N,tiempo_promedio_seg
+100000,0.005350232124328613
+142709,0.009394955635070801
+203659,0.014658403396606446
+290640,0.02446126937866211
+414769,0.04033768177032471
+591914,0.06297888755798339
+844716,0.09752740859985351
+1205487,0.16286942958831788
+1720341,0.2714462041854858
+2455084,0.4575232982635498
+3503629,0.7435823678970337
+4999999,1.1927025079727174
+
+algoritmo,modelo,c1,c2,error_cuadratico
+busqueda_optimizada,c1*n^1.5 + c2,1.0771706312156137e-10,0.014555271620719209,0.0026719989961723426
+
+/home/fballerio/tda\tp0/complejidad/grafico_busqueda_optimizada.png
+
+### Conclusión
+/home/fballerio/tda\tp0/complejidad/grafico_busqueda_comparacion.png
+
+El algoritmo optimizado, en el mismo tiempo que el original, puede manejar inputs unas 830 veces mas grandes. Siendo que el algoritmo base encuentra los cuartetos menores a 6000 en 1.2s y el optimizado encuentra los menores a 6000000 en el mismo tiempo.
 
 ## Referencias
 - GeeksforGeeks. (2026, 25 de agosto). *Program for prime number check*. https://www.geeksforgeeks.org/dsa/check-for-prime-number/
