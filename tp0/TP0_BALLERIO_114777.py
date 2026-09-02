@@ -24,5 +24,5 @@ def prog():
     t2 = time.time() - t1
     print(t2)
 
-# if __name__ == "__main__":
-#     prog()
+if __name__ == "__main__":
+    prog()
