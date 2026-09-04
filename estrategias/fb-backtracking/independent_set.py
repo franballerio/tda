@@ -11,9 +11,11 @@ def no_adyacentesV2(grafo: list[tuple[int, int]], solucion: list[int]):
     for u, v in grafo:
         if u in solucion and v in solucion:
             return False
-
     return True
 
+# Quiero guardar k elementos en un grafo de n vertices.
+# Pero con la condicion de que ninguno de los n vertices sean adyacentes entre si.
+# Fuerza Bruta:
 def independent_set(vertices: list[int], k: int, grafo: list[tuple[int, int]], elegidos: list[int] = None, index: int = 0) -> bool:
     if elegidos is None:
         elegidos = []
@@ -29,5 +31,5 @@ def independent_set(vertices: list[int], k: int, grafo: list[tuple[int, int]], e
         return True
 
     # no incluyo al vertice
-    pop: int = elegidos.pop()
+    pop = elegidos.pop()
     return independent_set(vertices, k, grafo, elegidos, index + 1)
