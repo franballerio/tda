@@ -8,14 +8,17 @@ import time
 # buscar todas las combinaciones posibles de colores para cada vértice
 #
 # PODAS:
-#   1) Si tuve que volver al primer
+#   1) si tuve que volver al primer nodo, pues en los demas no pude poner colores --> devuelvo FALSE.
+#      Pues sera lo mismo solo que con el primer nodo con distintos colores
+#   2) al pintar un nodo de x color, verifico que los vecinos no tengan ese color. Si alguno coincide, corto esa rama
+#   3) un color nunca antes usado no necesita verificar vecinos
 
 class Graph:
     def __init__(self, nodes: list[int], neighbors: list[tuple[int, int]]):
         self.nodes = nodes
         self.neighbors = neighbors
 
-def colores_validos(node: int, nodes_colors: dict[int, int], neighbors: dict[int, set[int]], colors: set[int]) -> bool:
+def colores_validos(node: int, nodes_colors: dict[int, int], neighbors: dict[int, set[int]]) -> bool:
     for neighbor in neighbors[node]:
         if neighbor in nodes_colors and nodes_colors[neighbor] == nodes_colors[node]:
             return False
@@ -34,11 +37,23 @@ def colors_fb(nodes: list[int], neighbors: dict[int, set[int]], n: int, index: i
     node = nodes[index]
     for color in range(n):
         res[node] = color
+
+        # PODA 3
+        if (color not in colors):
+            colors.add(color)
+            if colors_fb(nodes, neighbors, n, index + 1, res, colors):
+                return True
+
         colors.add(color)
-        if colores_validos(node, res, neighbors, colors) and (colors_fb(nodes, neighbors, n, index + 1, res, colors)):
+        # PODA 2
+        if colores_validos(node, res, neighbors) and (colors_fb(nodes, neighbors, n, index + 1, res, colors)):
             _ = colors.discard(color)
             return True
         _ = res.pop(node)
+
+        # PODA 1
+        if index == 0:
+            return False
 
     return False
 
