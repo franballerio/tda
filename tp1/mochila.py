@@ -1,3 +1,5 @@
+import parser_mochila
+
 # Queremos meter en una mochila de capacidad W el mayor valor posible.
 # Contamos con N elementos N_i = [Peso_i, Valor_i]
 #
@@ -14,7 +16,6 @@
 #
 #       Esto nos garantiza que los optimos anteriores chequedos son realmente
 #       la mejor opcion que podriamos considerar.
-#
 
 def mochila(valores: list[int], pesos:list[int], cant_elems: int, capacidad_mochila: int):
     memo: list[list[int]] = []
@@ -31,14 +32,9 @@ def mochila(valores: list[int], pesos:list[int], cant_elems: int, capacidad_moch
             else:
                 memo[elem][w] = memo[elem-1][w]
 
-    for row in memo:
-        print(row)
     return memo[cant_elems][capacidad_mochila]
 
 if __name__ == "__main__":
-    v = [60, 100, 120]
-    p = [10, 20, 30]
-    n = 3
-    w = 50
+    v,p,n,w = parser_mochila.parsear_mochila("mochila10.txt")
     res = mochila(v,p,n,w)
     print(res)
