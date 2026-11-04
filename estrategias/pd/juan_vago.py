@@ -67,7 +67,7 @@ def juan_vago_dias(optimos: list[int], ganancias: list[int]) -> list[str]:
     return dias
 
 if __name__ == "__main__":
-    ganancias = [100, 20, 30, 40, 50]
+    ganancias = [100, 200, 30, 400, 50]
     optimos = juan_vago(ganancias)
     print(optimos)
     print(juan_vago_dias(optimos, ganancias))

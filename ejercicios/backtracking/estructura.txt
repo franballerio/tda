@@ -1,0 +1,23 @@
+para un algoritmo de backtracking usaremos 2 funciones
+
+def principal(params):
+    1. Validación de entradas e invariantes iniciales
+    2. Inicialización de estructuras compartidas (mutadas in-place)
+    3. Disparo de la exploración
+    4. Retorno de resultados consolidados
+
+def backtracking(state, candidates_context):
+    if is_solution(state):
+        process_solution(state)
+        return True                            # Si es búsqueda de solución única
+
+    for candidate in get_candidates(state, candidates_context):
+        if not is_valid_or_promising(candidate, state):
+            continue                           # Poda (Pruning / Bounding)
+
+        apply_choice(state, candidate)         # Mutación
+        if backtracking(state, candidates_context): # Recursión
+            return True                        # Propagación de éxito
+        revert_choice(state, candidate)        # Backtrack estricto
+
+    return False
