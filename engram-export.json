@@ -1,0 +1,149 @@
+{
+  "version": "0.2.0",
+  "exported_at": "2026-11-24 21:21:41.991096131",
+  "sessions": [
+    {
+      "id": "01a208f5-fbdd-7390-bd8d-4a986a51aad1",
+      "project": "trabajo-practico-1-tda-2026",
+      "ownership_mode": "project_owned",
+      "directory": "/home/fballerio/uba/tda/tp2",
+      "started_at": "2026-11-23 15:11:34.935036378",
+      "ended_at": "2026-11-23 15:21:52"
+    },
+    {
+      "id": "01a208ff-d17f-7390-bd8d-4a9a6de7cf54",
+      "project": "trabajo-practico-1-tda-2026",
+      "ownership_mode": "project_owned",
+      "directory": "/home/fballerio/uba/tda/tp2",
+      "started_at": "2026-11-23 15:22:31.672803669"
+    },
+    {
+      "id": "01a209e1-beeb-7416-9022-378f2b9329ef",
+      "project": "trabajo-practico-1-tda-2026",
+      "ownership_mode": "project_owned",
+      "directory": "/home/fballerio/uba/tda/tp2",
+      "started_at": "2026-11-23 19:28:55.980574867",
+      "ended_at": "2026-11-23 20:02:06"
+    }
+  ],
+  "observations": [
+    {
+      "id": 4,
+      "sync_id": "obs-d16171347b2f2265",
+      "session_id": "01a208ff-d17f-7390-bd8d-4a9a6de7cf54",
+      "type": "decision",
+      "title": "Planificar arquitectura TP2 y relevar código reutilizable del TP1",
+      "content": "**What**: Se definió la arquitectura de carpetas del TP2 (mochila aproximada, TDA curso Echevarría) y se relevó qué código del TP1 es reutilizable.\n\n**Why**: La consigna tiene 4 problemas pero el código se agrupa en 3 ejes (núcleo compartido de instancias/cotas/exacto, tres algoritmos aproximados, y una matriz de experimentos transversal). Agrupar por problema habría duplicado cotas y solvers exactos en P1, P3 y P4.\n\n**Where**: `/home/fballerio/uba/tda/tp2` (repo con historia del TP1, rama `tp2`).\n\n**Decisiones confirmadas por el usuario**:\n1. **Layout por capas, informe por problema**: `mochila/` (instancia, generar, cotas, exacto/, aproximado/, randomizado/, metricas, cli), `experimentos/` (p1..p4, la vista por problema), `datos/` + `manifiesto.csv`, `resultados/{crudo,tablas,figuras}`, `tests/`, `scripts/`.\n2. **Informe en documento externo** (Google Docs/Word), no en el repo: `resultados/` pasa a ser la API del informe, con `scripts/informe_assets.py` regenerando figuras (PNG 300dpi + PDF) y tablas (CSV/TSV) desde `resultados/crudo/`, y el export congelado en `docs/informe-final.pdf`.\n3. **Copiar y adaptar el código del TP1 al repo** (autocontenido para el zip de entrega), documentando procedencia en el README.\n\n**Criterios de diseño acordados**: un único esquema CSV normalizado (algoritmo, instancia, familia, n, W, epsilon, semilla, repeticion, estado, tiempo_s, memoria_bytes, valor, cota_lp, cota_mt, optimo); ε y semilla como columnas; familias de instancias como concepto de primera clase (no/weakly/strongly correlacionadas, subset-sum); traza como parámetro (`traza=None`) para generar el seguimiento con la misma implementación del benchmark; celdas `omitido`/`timeout` explícitas nunca vacías; tests como invariantes (FB=BT=PD, OPT ≤ MT ≤ LP, OPT/2 ≤ Sahni ≤ OPT, OPT(1−ε) ≤ FPTAS ≤ OPT). Español para carpetas y módulos por convención heredada del repo; el texto de la sección de uso de IA no se genera con IA (obligación de la consigna).\n\n**Learned** (hallazgos verificados con git, costosos de reconstruir):\n- El código del TP1 **está en el HEAD de este mismo repo** (`git show HEAD:tp1/...`), no hace falta leer `../tp1`. Hay que copiarlo desde el HEAD porque el working tree tiene ~30 archivos del TP1 borrados sin commitear.\n- Reutilizable: `tp1/mochila.py` (PD tradicional), `tp1/mochila_alt.py` (PD alternativa), `tp1/parser_mochila.py` (`parsear_mochila`), `crear_mochila.py` (generador + `greedy(objetos, capacidad)` en línea 96), `tp1/check_mochila.py`, y `tp1/complejidad/util.py` + `benchmark.py` (metodología de medición y ajuste de curva ya resueltos, con `resumen_ajustes.csv`).\n- **Fuerza bruta y backtracking no están en ninguna rama del repo**: el commit «Agrego punto 1» (0ac2def) solo agregó los resultados (`ResultadosPunto1/mochila{8..24}.txt` + `comparativa_p1_fb_vs_bt.png`) y el generador; nunca se commiteó el código. P4 exige los tiempos de ambos ⇒ hay que recuperarlos del compañero o reimplementarlos.",
+      "project": "trabajo-practico-1-tda-2026",
+      "scope": "project",
+      "topic_key": "tda/tp2/arquitectura-y-reuso-tp1",
+      "revision_count": 1,
+      "duplicate_count": 1,
+      "last_seen_at": "2026-11-23 15:31:00",
+      "review_after": "2027-05-23 15:31:00",
+      "created_at": "2026-11-23 15:31:00",
+      "updated_at": "2026-11-23 15:31:00",
+      "pinned": false
+    },
+    {
+      "id": 5,
+      "sync_id": "obs-c1ce7e0f5d570589",
+      "session_id": "01a208ff-d17f-7390-bd8d-4a9a6de7cf54",
+      "type": "session_summary",
+      "title": "Session summary",
+      "content": "**Goal**: Definir la arquitectura de carpetas del TP2 (mochila aproximada, TDA curso Echevarría) y dejar completa la librería compartida `comun/` portada del TP1, con el repo limpio de los archivos del TP1.\n\n**Instructions / decisiones del usuario**:\n- Carpeta por punto del TP, una rama por punto, cada uno se encarga de sus archivos.\n- Informe en documento externo (Google Docs/Word); el repo solo entrega figuras y tablas.\n- P1 usa programación lineal como método de solución óptima.\n- Sólo carpetas primero; después completar `comun/` con el contenido de la rama `Entrega`.\n- No instalar paquetes sin pedido; no commitear sin pedido (el commit del TP1 se autorizó explícitamente).\n\n**Discoveries**:\n- El `.gitignore` estaba en UTF-16LE con BOM, tanto en el working tree como en `HEAD`: git no lo parseaba, así que nunca se ignoró `__pycache__/`. Arreglado a UTF-8/LF.\n- Fuerza bruta y backtracking SÍ existían, dentro de `crear_mochila.py` (líneas 43 y 66): una búsqueda inicial con regex `^def (fuerza|backtracking)` dio falso negativo porque los nombres llevan prefijo `mochila_`.\n- `greedy` del TP1 es exactamente el algoritmo de Sahni (1975): prefijo greedy por ratio + comparación contra el elemento crítico.\n- `tp1/mochila_alt.py` no es la PD optimizada en espacio: es la formulación dual (mínimo peso para beneficio B, O(n·B)). La PD con vector O(W) está en `tp1/check_mochila.py`.\n- El arnés de medición del TP1 corría en paralelo (`ProcessPoolExecutor`) con `time.time()`: sus CSV no son comparables con mediciones secuenciales. Para P4 hay que re-medir el TP1 con el arnés nuevo.\n- En este intérprete (Python 3.15.2) faltan `pulp`, `numpy` y `matplotlib`; el TP1 se había corrido con 3.12.\n\n**Accomplished**:\n- Esqueleto de carpetas: `comun/{exacto,medicion,pruebas}`, `datos/` (5 familias), `p1..p4/{pruebas,resultados/{crudo,tablas,figuras}}`, `docs/referencias`, `scripts`, con `.gitkeep`.\n- `comun/` portado y verificado: `instancia.py`, `solucion.py`, `generar.py`, `greedy.py`, `exacto/{fuerza_bruta,backtracking,dinamica,programacion_lineal}.py`, `medicion/tiempo.py`, `pruebas/humo.py` (824 líneas). `humo.py` en verde: FB=BT=PD=PD compacta, greedy en [z*/2, z*] y factible, ida y vuelta del formato. PL omitida por falta de PuLP.\n- Correcciones al port: `greedy` ya no muta la entrada; los solvers exactos devuelven selección; `crear_mochila.py` ya no ejecuta código al importarse; instancia con campos con nombre en vez de la tupla `(v,p,n,w)`.\n- `requirements.txt` con pulp/matplotlib/numpy.\n- Commit `515a879` que saca los 62 archivos del TP1 de la rama `tp2` (recuperables en `HEAD~1` y en la rama `Entrega`).\n\n**Next Steps**:\n- Commitear `comun/` + `requirements.txt` y el esqueleto de carpetas (dos unidades separadas); quedaron sin commitear.\n- `pip install -r requirements.txt` para poder ejercitar `programacion_lineal` (P1 depende de eso).\n- Escribir `comun/cotas.py`: cota de Martello–Toth (la relajación lineal ya sale de `programacion_lineal.relajacion` con `math.floor`).\n- Familias de instancias correlacionadas y timeout en la medición (FB/BT se cuelgan sin límite).\n- Cortar `p1`…`p4` desde la base y congelar `comun/`.\n- Pendiente: veredicto del verificador independiente (task `mwtnsd85-1-0jou`) sobre el port.\n\n**Relevant Files**: `comun/instancia.py`, `comun/solucion.py`, `comun/greedy.py`, `comun/exacto/programacion_lineal.py`, `comun/exacto/dinamica.py`, `comun/medicion/tiempo.py`, `comun/pruebas/humo.py`, `requirements.txt`, `.gitignore`",
+      "project": "trabajo-practico-1-tda-2026",
+      "scope": "project",
+      "revision_count": 1,
+      "duplicate_count": 1,
+      "last_seen_at": "2026-11-23 19:41:27",
+      "created_at": "2026-11-23 19:41:27",
+      "updated_at": "2026-11-23 19:41:27",
+      "pinned": false
+    },
+    {
+      "id": 6,
+      "sync_id": "obs-91225b22fd0be9d6",
+      "session_id": "01a208ff-d17f-7390-bd8d-4a9a6de7cf54",
+      "type": "bugfix",
+      "title": "Corregir greedy infactible cuando un elemento pesa más que la capacidad",
+      "content": "**What**: Se corrigió un defecto heredado del TP1 en `greedy` (que es el algoritmo de Sahni): cuando un elemento pesa más que la capacidad, devolvía ese elemento crítico solo y la solución quedaba infactible.\n\n**Why**: Lo detectó un test diferencial contra el código del TP1 (`HEAD~1`) sobre casos borde. En los sets del TP1 nunca se disparaba porque `W = n*50` y los pesos llegan a 200, así que ninguna instancia generada tiene un elemento más pesado que la mochila; con `datos/subset-sum/` o sets armados a mano sí. El test de garantía de P1 (`z*/2 \u003c= valor \u003c= z*` y factibilidad) habría fallado sin explicación.\n\n**Where**: `comun/greedy.py` (condición `inst.pesos[critico] \u003c= inst.capacidad` agregada; divergencia documentada en el docstring como deliberada), `comun/pruebas/humo.py` (sección \"4. casos borde del greedy\" con tres instancias que lo fijan).\n\n**Learned**:\n- El TP1 devolvía el crítico aunque no entrara solo: `if beneficios[critico] \u003e beneficio_total: seleccion = [critico]`. Faltaba la verificación de que el crítico quepa por sí mismo.\n- Evidencia RED→GREEN: diferencial contra `HEAD~1` con 288 comparaciones → 2 diferencias (ambas el mismo defecto) antes; 0 diferencias después, con las dos divergencias deliberadas verificadas de forma explícita en lugar de ignoradas.\n- Los casos borde que valen para la mochila y que el TP1 no cubría: n=1 que no entra, todos los elementos más pesados que W, empate exacto entre prefijo y crítico, y capacidad igual al peso total.\n- El verificador independiente (`gentle-ai-verify`, task mwtnsd85-1-0jou) se colgó 30 minutos en un comando bash y no emitió veredicto: no cuenta como prueba. La verificación que sí existe es la diferencial propia (no independiente) más el humo.",
+      "project": "trabajo-practico-1-tda-2026",
+      "scope": "project",
+      "topic_key": "tda/tp2/greedy-critico-infactible",
+      "revision_count": 1,
+      "duplicate_count": 1,
+      "last_seen_at": "2026-11-23 20:08:44",
+      "review_after": "2027-11-23 20:08:44",
+      "created_at": "2026-11-23 20:08:44",
+      "updated_at": "2026-11-23 20:08:44",
+      "pinned": false
+    }
+  ],
+  "prompts": [
+    {
+      "id": 16,
+      "sync_id": "prompt-17a56f95ca6e1f7c",
+      "session_id": "01a208f5-fbdd-7390-bd8d-4a986a51aad1",
+      "content": "que falta configurar para codegraph",
+      "project": "trabajo-practico-1-tda-2026",
+      "created_at": "2026-11-23 15:11:34"
+    },
+    {
+      "id": 17,
+      "sync_id": "prompt-f461447b8d3e97b0",
+      "session_id": "01a208f5-fbdd-7390-bd8d-4a986a51aad1",
+      "content": "a lo que me refiero es que gentle-ai muestra pending para codegraph. no con este repo sino con pi",
+      "project": "trabajo-practico-1-tda-2026",
+      "created_at": "2026-11-23 15:19:30"
+    },
+    {
+      "id": 18,
+      "sync_id": "prompt-a1ffc6d76d995708",
+      "session_id": "01a208ff-d17f-7390-bd8d-4a9a6de7cf54",
+      "content": "pensemos una arquitectura de carpetas para este trabajo. lee @TP02-2026-2c.pdf",
+      "project": "trabajo-practico-1-tda-2026",
+      "created_at": "2026-11-23 15:22:31"
+    },
+    {
+      "id": 19,
+      "sync_id": "prompt-cc5f09bfab3677ef",
+      "session_id": "01a208ff-d17f-7390-bd8d-4a9a6de7cf54",
+      "content": "solamente quiero carpetas. tiene que ser el esqueleto para cada punto del tp. los puntos se dividen en ramas y cada uno se encarga de sus files",
+      "project": "trabajo-practico-1-tda-2026",
+      "created_at": "2026-11-23 15:33:06"
+    },
+    {
+      "id": 20,
+      "sync_id": "prompt-3895a60520ca7d6d",
+      "session_id": "01a208ff-d17f-7390-bd8d-4a9a6de7cf54",
+      "content": "para completar comun usa el contenido de la rama entrega. para el punto 1 usare programacion lineal como algoritmo con solucion optima",
+      "project": "trabajo-practico-1-tda-2026",
+      "created_at": "2026-11-23 19:15:32"
+    },
+    {
+      "id": 21,
+      "sync_id": "prompt-df055798970328ac",
+      "session_id": "01a208ff-d17f-7390-bd8d-4a9a6de7cf54",
+      "content": "arregla .gitignore",
+      "project": "trabajo-practico-1-tda-2026",
+      "created_at": "2026-11-23 19:31:18"
+    },
+    {
+      "id": 22,
+      "sync_id": "prompt-a67de5471f95636d",
+      "session_id": "01a208ff-d17f-7390-bd8d-4a9a6de7cf54",
+      "content": "elimina los borrados del tp1 en esta rama",
+      "project": "trabajo-practico-1-tda-2026",
+      "created_at": "2026-11-23 19:32:30"
+    },
+    {
+      "id": 23,
+      "sync_id": "prompt-060a947b7773623f",
+      "session_id": "01a208ff-d17f-7390-bd8d-4a9a6de7cf54",
+      "content": "ya instale las dependencias. prueba programacion lineal y comitea lo que falta",
+      "project": "trabajo-practico-1-tda-2026",
+      "created_at": "2026-11-23 20:17:14"
+    }
+  ]
+}
